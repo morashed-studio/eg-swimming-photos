@@ -1,8 +1,8 @@
 package layouts
 
 import "goweb/ui/components"
-
-var onceHandle = templ.NewOnceHandle();
+import "goweb/constants"
+import "strconv"
 
 type Props struct {
   path string
@@ -11,14 +11,49 @@ type Props struct {
   option string
 }
 
-templ button(props Props) {
-  @onceHandle.Once() {
+var logicHandle = templ.NewOnceHandle();
+
+templ Nav() {
+  @logicHandle.Once() {
     <script>
+      AppState.addListener(SELECTED_NAV_OPTION, () => {
+        const btns = document.getElementsByClassName("nav-btn");
+        for (const btn of btns) {
+          if (btn.dataset.option == AppState.get(SELECTED_NAV_OPTION)) {
+            btn.classList.add("bg-secondary", "color-primary");
+          }
+          else {
+            btn.classList.remove("bg-secondary", "color-primary");
+          }
+        }
+      })
+
       function selectNavOption(option) {
-        AppState.set(SELECTED_NAV_OPTION, NAV_OPTIONS[option]);
+        AppState.set(SELECTED_NAV_OPTION, option);
       }
     </script>
   }
+
+  <navigation class="flex flex-row items-center h-20 m-6 px-4 bg-primary color-text rounded-full overflow-hidden">
+    @button(Props{ 
+      path: "./public/svgs/home.svg",
+      label: "Home", 
+      option: strconv.Itoa(constants.NavOptions.HOME), 
+    })
+    @button(Props{ 
+      path: "./public/svgs/cart.svg",
+      label: "My Cart", 
+      option: strconv.Itoa(constants.NavOptions.MY_CART), 
+    })
+    @button(Props{ 
+      path: "./public/svgs/phone.svg",
+      label: "Contact Us", 
+      option: strconv.Itoa(constants.NavOptions.CONTACT_US), 
+    })
+  </navigation>
+}
+
+templ button(props Props) {
   <div
     onclick={templ.JSFuncCall("selectNavOption", props.option)} 
     class="flex-1 flex flex-col justify-center items-center text-sm cursor-pointer"
@@ -31,24 +66,4 @@ templ button(props Props) {
     </div>
     <label>{props.label}</label>
   </div>
-}
-
-templ Nav() {
-  <navigation class="flex flex-row items-center h-20 m-6 px-4 bg-primary color-text rounded-full overflow-hidden">
-    @button(Props{ 
-      path: "./public/svgs/home.svg",
-      label: "Home", 
-      option: "HOME", 
-    })
-    @button(Props{ 
-      path: "./public/svgs/cart.svg",
-      label: "My Cart", 
-      option: "MY_CART", 
-    })
-    @button(Props{ 
-      path: "./public/svgs/phone.svg",
-      label: "Contact Us", 
-      option: "CONTACT_US", 
-    })
-  </navigation>
 }
