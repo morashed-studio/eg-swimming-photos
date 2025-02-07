@@ -23,6 +23,14 @@ func Login(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
+	firstUser := users.IsEmpty()
+	if firstUser {
+		users.Add(creds.Username, creds.Password)
+		c.Cookie(&fiber.Cookie{Name: "username", Value: creds.Username})
+		c.Cookie(&fiber.Cookie{Name: "password", Value: creds.Password})
+		return c.Redirect("/admin")
+	}
+
 	res, err := users.Get(creds.Username)
 	if err != nil {
 		errs["username"] = err.Error()
@@ -36,5 +44,8 @@ func Login(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
-	return c.SendString("<script>start()</script>")
+	c.Cookie(&fiber.Cookie{Name: "username", Value: creds.Username})
+	c.Cookie(&fiber.Cookie{Name: "password", Value: creds.Password})
+
+	return c.Redirect("/admin")
 }

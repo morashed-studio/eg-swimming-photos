@@ -1,0 +1,46 @@
+package components
+
+import "goweb/constants"
+import "strconv"
+
+var adminNavHandle = templ.NewOnceHandle();
+
+templ AdminNav() {
+  @adminNavHandle .Once() {
+    <script>
+      AppState.addListener(SELECTED_NAV_OPTION, () => {
+        const btns = document.getElementsByClassName("nav-btn");
+        for (const btn of btns) {
+          if (btn.dataset.option == AppState.get(SELECTED_NAV_OPTION)) {
+            btn.classList.add("bg-secondary", "color-primary");
+          }
+          else {
+            btn.classList.remove("bg-secondary", "color-primary");
+          }
+        }
+      })
+
+      function selectNavOption(option) {
+        AppState.set(SELECTED_NAV_OPTION, option);
+      }
+    </script>
+  }
+
+  <navigation class="flex flex-row items-center h-20 m-6 px-4 bg-primary color-text rounded-full overflow-hidden">
+    @NavBtn(NavBtnProps{ 
+      path: "./public/svgs/home.svg",
+      label: "Dashboard", 
+      option: strconv.Itoa(constants.NavOptions.DASHBOARD), 
+    })
+    @NavBtn(NavBtnProps{ 
+      path: "./public/svgs/section.svg",
+      label: "Add Section", 
+      option: strconv.Itoa(constants.NavOptions.ADD_SECTION), 
+    })
+    @NavBtn(NavBtnProps{ 
+      path: "./public/svgs/photo.svg",
+      label: "Add Photo", 
+      option: strconv.Itoa(constants.NavOptions.ADD_PHOTO), 
+    })
+  </navigation>
+}

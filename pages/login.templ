@@ -2,18 +2,16 @@ package pages
 
 import (
   "goweb/ui/layouts"
-  "goweb/ui/components"
+	"goweb/ui/forms"
 )
 
-templ Index() {
+templ Login() {
   @layouts.Page() {
     @layouts.Header()
 
     <main class="flex-1 flex flex-wrap justify-center items-center p-4 bg-background color-text rounded-2xl">
-      User
+      @forms.Login(nil)
     </main>
-
-    @components.UserNav()
     
     @layouts.Footer()
   }

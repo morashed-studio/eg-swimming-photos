@@ -1,13 +1,13 @@
 package users
 
 type DataModel struct {
-	Parent  int
-  Child  int
+	Parent int
+	Child  int
 }
 
 func parseRow(row []any) DataModel {
 	return DataModel{
-		Parent:  row[0].(int),
+		Parent: row[0].(int),
 		Child:  row[1].(int),
 	}
 }

@@ -1,18 +1,18 @@
 package users
 
 type DataModel struct {
-	Id  int
-  Name  string
-  Url  string
-  SectionId  int
+	Id        int
+	Name      string
+	Url       string
+	SectionId int
 }
 
 func parseRow(row []any) DataModel {
 	return DataModel{
-		Id:  row[0].(int),
-		Name:  row[1].(string),
-		Url:  row[2].(string),
-		SectionId:  row[3].(int),
+		Id:        row[0].(int),
+		Name:      row[1].(string),
+		Url:       row[2].(string),
+		SectionId: row[3].(int),
 	}
 }
 

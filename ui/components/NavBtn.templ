@@ -1,0 +1,23 @@
+package components
+
+type NavBtnProps struct {
+  path string
+  label string
+  class string
+  option string
+}
+
+templ NavBtn(props NavBtnProps) {
+  <div
+    onclick={templ.JSFuncCall("selectNavOption", props.option)} 
+    class="flex-1 flex flex-col justify-center items-center text-sm cursor-pointer"
+  >
+    <div 
+      data-option={ props.option }
+      class={ "nav-btn flex justify-center w-fit px-6 py-1 rounded-2xl", props.class }
+    >
+      @SVG(props.path)
+    </div>
+    <label>{props.label}</label>
+  </div>
+}

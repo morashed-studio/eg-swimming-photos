@@ -8,6 +8,7 @@ import (
 	anc "goweb/ancillaries"
 	"goweb/db"
 	"goweb/handlers/user"
+	"goweb/middlewares"
 	"goweb/pages"
 )
 
@@ -21,7 +22,7 @@ func main() {
 	// shall be used once and commented afterwards,
 	// and maybe completed removed in production.
 	app.Get("/seed", func(c *fiber.Ctx) error {
-    defer anc.Recover(c)
+		defer anc.Recover(c)
 		anc.Must(nil, db.Seed())
 		return c.SendString("Database has been seeded.")
 	})
@@ -32,8 +33,20 @@ func main() {
 		return c.SendStatus(200)
 	})
 
+	app.Get("/login", func(c *fiber.Ctx) error {
+		c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+		pages.Login().Render(ctx, c.Response().BodyWriter())
+		return c.SendStatus(200)
+	})
 	app.Post("/login", user.Login)
-	app.Post("/register", user.Register)
+
+	app.Use(middlewares.Auth)
+
+	app.Get("/admin", func(c *fiber.Ctx) error {
+		c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+		pages.Admin().Render(ctx, c.Response().BodyWriter())
+		return c.SendStatus(200)
+	})
 
 	app.Listen(":3000")
 }
