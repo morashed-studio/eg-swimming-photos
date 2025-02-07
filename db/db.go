@@ -13,7 +13,7 @@ var pool *pgxpool.Pool
 func connect() (*pgxpool.Conn, error) {
   var err error
   if pool == nil {
-    pool, err = pgxpool.New(context.Background(), "postgres://postgres:postgres@localhost:5432/postgres")
+    pool, err = pgxpool.New(context.Background(), "postgres://postgres:postgres@localhost:5432/studioshop")
   }
 	if err != nil {
     return nil, fmt.Errorf("Unable to connect to database: %v\n", err)
@@ -101,7 +101,29 @@ func (c *Connection) SeqQuery(query string, args ...any) ([]any, error) {
 // hardcoded sql queries to seed (initialize) the database placed here
 func Seed() error {
 	err := Queries([]string{
-		"CREATE TABLE IF NOT EXISTS users (username VARCHAR(45) PRIMARY KEY, password VARCHAR(45) NOT NULL);",
+		`
+      CREATE TABLE IF NOT EXISTS sections (
+        id SERIAL PRIMARY KEY, 
+        title VARCHAR(128) NOT NULL
+      );
+    `,
+
+    `
+      CREATE TABLE IF NOT EXISTS relations (
+        parent INT REFERENCES sections(id) NOT NULL,
+        child INT REFERENCES sections(id) NOT NULL,
+        PRIMARY KEY(parent, child)
+      );
+    `,
+
+    `
+      CREATE TABLE IF NOT EXISTS photos (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        url TEXT NOT NULL,
+        section_id INT REFERENCES sections(id) NOT NULL
+      );
+    `,
 	})
 	return err
 }
