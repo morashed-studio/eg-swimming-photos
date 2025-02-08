@@ -1,4 +1,4 @@
-package users
+package sections
 
 import (
 	"fmt"
@@ -10,10 +10,21 @@ import (
 // retrieves an array of sections with the passed ids.
 func Get(ids []int) ([]DataModel, error) {
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
-	rows := anc.Must(conn.SeqQuery("SELECT * FROM sections WHERE id in $1", ids)).([][]any)
+	rows := anc.Must(conn.SeqQuery("SELECT * FROM sections WHERE id in $1", ids)).([]any)
 	var res []DataModel
 	for _, row := range rows {
-		res = append(res, parseRow(row))
+		res = append(res, parseRow(row.([]any)))
+	}
+	return res, nil
+}
+
+// retrieves an array of sections with the passed ids.
+func GetAll() ([]DataModel, error) {
+	conn := anc.Must(db.GetConnection()).(*db.Connection)
+	rows := anc.Must(conn.SeqQuery("SELECT * FROM sections")).([]any)
+	var res []DataModel
+	for _, row := range rows {
+		res = append(res, parseRow(row.([]any)))
 	}
 	return res, nil
 }

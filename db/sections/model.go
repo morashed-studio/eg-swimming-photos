@@ -1,4 +1,4 @@
-package users
+package sections
 
 type DataModel struct {
 	Id    int

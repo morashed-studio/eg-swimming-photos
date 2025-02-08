@@ -1,4 +1,4 @@
-package users
+package photos
 
 type DataModel struct {
 	Id        int

@@ -1,4 +1,4 @@
-package users
+package relations
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package users
+package photos
 
 import (
 	"fmt"
@@ -10,10 +10,10 @@ import (
 // retrieves an array of photos of a specific section
 func GetPhotos(sectionId int) ([]DataModel, error) {
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
-	rows := anc.Must(conn.SeqQuery("SELECT * FROM photos WHERE section_id=$1", sectionId)).([][]any)
+	rows := anc.Must(conn.SeqQuery("SELECT * FROM photos WHERE section_id=$1", sectionId)).([]any)
 	var res []DataModel
 	for _, row := range rows {
-		res = append(res, parseRow(row))
+		res = append(res, parseRow(row.([]any)))
 	}
 	return res, nil
 }

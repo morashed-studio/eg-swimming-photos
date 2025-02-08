@@ -1,4 +1,4 @@
-package users
+package relations
 
 type DataModel struct {
 	Parent int
