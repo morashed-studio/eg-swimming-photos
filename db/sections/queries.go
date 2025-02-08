@@ -40,10 +40,43 @@ func Get(ids []int) ([]DataModel, error) {
 	return res, nil
 }
 
-// retrieves an array of sections with the passed ids.
+// retrieves an array of all sections
 func GetAll() ([]DataModel, error) {
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
 	rows := anc.Must(conn.Query("SELECT * FROM sections")).([]any)
+	var res []DataModel
+	for _, row := range rows {
+		res = append(res, parseRow(row.([]any)))
+	}
+	return res, nil
+}
+
+// retrieves an array of sections that have photos
+func GetAlbums() ([]DataModel, error) {
+	conn := anc.Must(db.GetConnection()).(*db.Connection)
+	rows := anc.Must(conn.Query(
+    `
+      SELECT DISTINCT ON (title) * FROM sections
+      INNER JOIN relations ON sections.id != relations.parent
+    `,
+  )).([]any)
+	var res []DataModel
+	for _, row := range rows {
+		res = append(res, parseRow(row.([]any)))
+	}
+	return res, nil
+}
+
+// retrieves an array of sections that don't have photos
+func GetNotAlbums() ([]DataModel, error) {
+	conn := anc.Must(db.GetConnection()).(*db.Connection)
+	rows := anc.Must(conn.Query(
+    `
+      SELECT * FROM sections
+      LEFT JOIN photos ON sections.id = photos.section_id
+      WHERE photos.section_id IS NULL
+    `,
+  )).([]any)
 	var res []DataModel
 	for _, row := range rows {
 		res = append(res, parseRow(row.([]any)))

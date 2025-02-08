@@ -6,9 +6,9 @@ import "goweb/db/sections"
 templ AddPhoto(options []sections.DataModel, errs map[string]string) {
   <div hx-ext='response-targets'>
     <form 
-      class="p-6 drop-shadow" 
-      hx-post="/add-photo" 
-      hx-swap="innerHTML" 
+      class="p-6 drop-shadow"
+      hx-post="/photo/add"
+      hx-swap="innerHTML"
       hx-target-error="#notifications-container"
       hx-target="#notifications-container"
     >

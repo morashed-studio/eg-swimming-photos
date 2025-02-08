@@ -8,6 +8,7 @@ import (
 	anc "goweb/ancillaries"
 	"goweb/db"
 	"goweb/handlers/guih"
+	"goweb/handlers/photo"
 	"goweb/handlers/section"
 	"goweb/handlers/user"
 	"goweb/middlewares"
@@ -58,8 +59,8 @@ func main() {
 	app.Post("/section/add", section.Add)
   app.Delete("/section/delete/:id", section.Delete)
 
-	//app.Post("/photo/add", photo.Add)
-	//app.Delete("/photo/delete", photo.Delete)
+	app.Post("/photo/add", photo.Add)
+	app.Delete("/photo/delete", photo.Delete)
 
 	app.Listen(":3000")
 }

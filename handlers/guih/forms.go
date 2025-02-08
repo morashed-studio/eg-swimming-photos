@@ -12,8 +12,8 @@ import (
 func AddSectionForm(c *fiber.Ctx) error {
   defer anc.Recover(c)
   c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-  allSections := anc.Must(sections.GetAll()).([]sections.DataModel)
-  forms.AddSection(allSections, nil).Render(
+  notAlbumSections := anc.Must(sections.GetNotAlbums()).([]sections.DataModel)
+  forms.AddSection(notAlbumSections, nil).Render(
     context.Background(),
     c.Response().BodyWriter(),
   )
@@ -23,8 +23,8 @@ func AddSectionForm(c *fiber.Ctx) error {
 func AddPhotoForm(c *fiber.Ctx) error {
   defer anc.Recover(c)
   c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-  allSections := anc.Must(sections.GetAll()).([]sections.DataModel)
-  forms.AddPhoto(allSections, nil).Render(
+  albumSections := anc.Must(sections.GetAlbums()).([]sections.DataModel)
+  forms.AddPhoto(albumSections, nil).Render(
     context.Background(),
     c.Response().BodyWriter(),
   )
