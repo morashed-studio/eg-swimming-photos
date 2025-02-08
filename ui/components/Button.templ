@@ -1,6 +1,7 @@
 package components
 
 type ButtonProps struct{
+  Id string
   Label string
   ClassName string
 
@@ -12,6 +13,7 @@ type ButtonProps struct{
 
 templ Button(props ButtonProps) {
   <button 
+    id={ props.Id }
     class={
       "w-full p-2 text-lg hover:translate-y-[-2px] rounded",
       props.ClassName,

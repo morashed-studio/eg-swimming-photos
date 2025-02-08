@@ -60,7 +60,7 @@ func main() {
   app.Delete("/section/delete/:id", section.Delete)
 
 	app.Post("/photo/add", photo.Add)
-	app.Delete("/photo/delete", photo.Delete)
+  app.Delete("/photo/delete/:id", photo.Delete)
 
 	app.Listen(":3000")
 }

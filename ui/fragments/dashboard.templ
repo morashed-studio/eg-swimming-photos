@@ -12,6 +12,7 @@ templ Dashboard(sectionList []sections.DataModel) {
   <div class="h-full w-full px-6 overflow-y-auto">
     for _, section := range sectionList {
       @components.Button(components.ButtonProps{
+        Id: fmt.Sprintf("section-%d", section.Id),
         Label: section.Title,
         ClassName: `
           flex justify-between items-center my-2 bg-primary 
@@ -26,6 +27,7 @@ templ Dashboard(sectionList []sections.DataModel) {
         },
 
         Attrs: templ.Attributes{ 
+          "hx-trigger": fmt.Sprintf("click target:#section-%d", section.Id),
           "hx-get": fmt.Sprintf("/gui/fragments/dashboard?section-id=%d", section.Id),
           "hx-swap": "InnerHTML",
           "hx-target": "main",
@@ -36,9 +38,19 @@ templ Dashboard(sectionList []sections.DataModel) {
 }
 
 templ PhotosDashboard(photoList []photos.DataModel) {
-  <div class="h-full w-full px-6 overflow-y-auto">
+  <div class="photo-card grid grid-cols-2 gap-4 h-full w-full px-1 overflow-y-auto">
     for _, photo := range photoList {
-      <label>{ photo.Name }</label>
+      @components.PhotoCard(components.PhotoCardProps{
+        Name: photo.Name,
+        Url: photo.Url,
+        ClassName: "h-fit rounded shadow overflow-hidden",
+        EndIconPath: "./public/svgs/x.svg",
+        EndIconAttrs: templ.Attributes{ 
+          "hx-delete": fmt.Sprintf("/photo/delete/%d", photo.Id),
+          "hx-swap": "delete",
+          "hx-target": "closest .photo-card",
+        },
+      })
     }
   </div>
 }
