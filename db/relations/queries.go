@@ -10,8 +10,12 @@ import (
 // retrieves an array of children of a specific parent
 func GetSectionsOf(id int) ([]int, error) {
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
-	rows := anc.Must(conn.Query("SELECT child FROM relations WHERE parent=$1", id)).([]int)
-	return rows, nil
+	rows := anc.Must(conn.Query("SELECT * FROM relations WHERE parent=$1", id)).([]any)
+  var ids []int
+  for _, row := range rows {
+    ids = append(ids, parseRow(row.([]any)).Child)
+  }
+	return ids, nil
 }
 
 // inserts a new (parent-child) section relation in the database.
@@ -52,8 +56,8 @@ func DeleteAll(parents []int) error {
 }
 
 // return true if there is no parent with the passed id
-func isAlbum(id int) bool {
+func IsAlbum(id int) bool {
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
-	rows := anc.Must(conn.Query("SELECT child FROM relations WHERE parent=$1", id)).([]int)
+	rows := anc.Must(conn.Query("SELECT child FROM relations WHERE parent=$1", id)).([]any)
 	return len(rows) == 0
 }

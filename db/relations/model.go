@@ -7,8 +7,8 @@ type DataModel struct {
 
 func parseRow(row []any) DataModel {
 	return DataModel{
-		Parent: row[0].(int),
-		Child:  row[1].(int),
+		Parent: int(row[0].(int32)),
+		Child:  int(row[1].(int32)),
 	}
 }
 

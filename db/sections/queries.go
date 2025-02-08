@@ -51,6 +51,23 @@ func GetAll() ([]DataModel, error) {
 	return res, nil
 }
 
+// retrieves an array of main sections: that have no parent
+func GetMain() ([]DataModel, error) {
+	conn := anc.Must(db.GetConnection()).(*db.Connection)
+	rows := anc.Must(conn.Query(
+    `
+      SELECT * FROM sections
+      LEFT JOIN relations ON sections.id = relations.child
+      WHERE relations.child IS NULL
+    `,
+  )).([]any)
+	var res []DataModel
+	for _, row := range rows {
+		res = append(res, parseRow(row.([]any)))
+	}
+	return res, nil
+}
+
 // retrieves an array of sections that have photos
 func GetAlbums() ([]DataModel, error) {
 	conn := anc.Must(db.GetConnection()).(*db.Connection)

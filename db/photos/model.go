@@ -9,10 +9,10 @@ type DataModel struct {
 
 func parseRow(row []any) DataModel {
 	return DataModel{
-		Id:        row[0].(int),
+		Id:        int(row[0].(int32)),
 		Name:      row[1].(string),
 		Url:       row[2].(string),
-		SectionId: row[3].(int),
+		SectionId: int(row[3].(int32)),
 	}
 }
 
