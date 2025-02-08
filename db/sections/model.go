@@ -7,7 +7,7 @@ type DataModel struct {
 
 func parseRow(row []any) DataModel {
 	return DataModel{
-		Id:    row[0].(int),
+		Id:    int(row[0].(int32)),
 		Title: row[1].(string),
 	}
 }

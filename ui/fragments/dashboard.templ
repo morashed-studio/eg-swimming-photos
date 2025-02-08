@@ -1,5 +1,12 @@
 package fragments
 
-templ Dashboard() {
-  <div>Admin Dashboard</div>
+import "goweb/db/sections"
+
+templ Dashboard(sectionList []sections.DataModel) {
+  <div>
+    <h1>Dashboard</h1>
+    for _, section := range sectionList {
+      <label>{ section.Title }</label>
+    }
+  </div>
 }

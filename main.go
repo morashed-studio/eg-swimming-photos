@@ -8,6 +8,7 @@ import (
 	anc "goweb/ancillaries"
 	"goweb/db"
 	"goweb/handlers/guih"
+	"goweb/handlers/section"
 	"goweb/handlers/user"
 	"goweb/middlewares"
 	"goweb/pages"
@@ -53,6 +54,8 @@ func main() {
 	app.Get("/gui/fragments/dashboard", guih.DashboardFragment)
 	app.Get("/gui/forms/add-section", guih.AddSectionForm)
 	app.Get("/gui/forms/add-photo", guih.AddPhotoForm)
+
+	app.Post("/add-section", section.AddSection)
 
 	app.Listen(":3000")
 }

@@ -14,13 +14,13 @@ templ Login(errs map[string]string) {
       @components.TextInput(components.TextInputProps{
         Name: "username",
         Placeholder: "username",
-        Itype: "text",
+        Itype: "username",
         Err: errs["username"],
       })
       @components.TextInput(components.TextInputProps{
         Name: "password",
         Placeholder: "*********",
-        Itype: "text",
+        Itype: "password",
         Err: errs["password"],
       })
       @components.Button("Login", "normal", templ.Attributes{ "type": "submit" })

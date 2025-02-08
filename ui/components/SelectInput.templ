@@ -23,6 +23,7 @@ templ SelectInput(props SelectInputProps) {
         class="block w-full rounded-md py-1.5 px-2 ring-1 ring-inset color-text bg-background"
         { props.Attrs... }
       >
+        <option value="none">none</option>
         for _, option := range props.Options {
           <option value={ strconv.Itoa(option.Id) }>{ option.Title }</option>
         }

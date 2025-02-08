@@ -10,7 +10,7 @@ import (
 // retrieves an array of children of a specific parent
 func GetSectionsOf(id int) ([]int, error) {
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
-	rows := anc.Must(conn.SeqQuery("SELECT child FROM relations WHERE parent=$1", id)).([]int)
+	rows := anc.Must(conn.Query("SELECT child FROM relations WHERE parent=$1", id)).([]int)
 	return rows, nil
 }
 
@@ -29,7 +29,7 @@ func Add(list []DataModel) error {
 // removes a specific relation from the database
 func Delete(data DataModel) error {
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
-	anc.Must(conn.SeqQuery(
+	anc.Must(conn.Query(
 		"DELETE FROM relations WHERE parent=$1 AND child=$2",
 		data.Parent,
 		data.Child,
@@ -40,13 +40,13 @@ func Delete(data DataModel) error {
 // removes specific parent relations from the database
 func DeleteAll(parent int) error {
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
-	anc.Must(conn.SeqQuery("DELETE FROM relations WHERE parent=$1", parent))
+	anc.Must(conn.Query("DELETE FROM relations WHERE parent=$1", parent))
 	return nil
 }
 
 // return true if there is no parent with the passed id
 func isAlbum(id int) bool {
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
-	rows := anc.Must(conn.SeqQuery("SELECT child FROM relations WHERE parent=$1", id)).([]int)
+	rows := anc.Must(conn.Query("SELECT child FROM relations WHERE parent=$1", id)).([]int)
 	return len(rows) == 0
 }
