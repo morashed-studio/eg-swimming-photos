@@ -1,0 +1,32 @@
+package forms
+
+import (
+  "goweb/ui/components"
+  "goweb/db/sections"
+)
+
+templ AddSection(options []sections.DataModel, errs map[string]string) {
+  <div hx-ext='response-targets'>
+    <form 
+      class="p-6 drop-shadow" 
+      hx-post="/add-section" 
+      hx-swap="afterbegin" 
+      hx-target-error="#notifications-container"
+      hx-target="#notifications-container"
+    >
+      @components.TextInput(components.TextInputProps{
+        Name: "title",
+        Itype: "text",
+        Placeholder: "Enter section title",
+        Err: errs["title"],
+      })
+      @components.SelectInput(components.SelectInputProps{
+        Name: "parent",
+        Options: options,
+        Placeholder: "Select parent section",
+        Err: errs["parent"],
+      })
+      @components.Button("Add Section", "normal", templ.Attributes{ "type": "submit" })
+    </form>
+  </div>
+}

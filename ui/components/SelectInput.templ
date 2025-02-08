@@ -1,24 +1,32 @@
 package components
 
-type TextInputProps struct {
+import (
+  "strconv"
+  "goweb/db/sections"
+)
+
+type SelectInputProps struct {
   Name string
   Placeholder string
-  Itype  string
+  Options []sections.DataModel
   Desc string
   Err string
   Attrs templ.Attributes
 }
 
-templ TextInput(props TextInputProps) {
+templ SelectInput(props SelectInputProps) {
   <div class="my-2">
     <div>
-      <input
+      <select
         name={ props.Name }
-        type={ props.Itype }
         placeholder={ props.Placeholder }
         class="block w-full rounded-md py-1.5 px-2 ring-1 ring-inset color-text bg-background"
         { props.Attrs... }
-      />
+      >
+        for _, option := range props.Options {
+          <option value={ strconv.Itoa(option.Id) }>{ option.Title }</option>
+        }
+      </select>
     </div>
     if props.Desc != "" { 
       <label class="p-1 block color-text text-md">{ props.Desc }</label> 

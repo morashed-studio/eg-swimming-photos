@@ -11,8 +11,18 @@ templ Login(errs map[string]string) {
       hx-target-4xx="this"
       hx-target="body"
     >
-      @components.TextInput("username", "text", "", errs["username"], templ.Attributes{})
-      @components.TextInput("password", "password", "",  errs["password"], templ.Attributes{})
+      @components.TextInput(components.TextInputProps{
+        Name: "username",
+        Placeholder: "username",
+        Itype: "text",
+        Err: errs["username"],
+      })
+      @components.TextInput(components.TextInputProps{
+        Name: "password",
+        Placeholder: "*********",
+        Itype: "text",
+        Err: errs["password"],
+      })
       @components.Button("Login", "normal", templ.Attributes{ "type": "submit" })
     </form>
   </div>

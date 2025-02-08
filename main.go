@@ -7,6 +7,7 @@ import (
 
 	anc "goweb/ancillaries"
 	"goweb/db"
+	"goweb/handlers/guih"
 	"goweb/handlers/user"
 	"goweb/middlewares"
 	"goweb/pages"
@@ -38,6 +39,7 @@ func main() {
 		pages.Login().Render(ctx, c.Response().BodyWriter())
 		return c.SendStatus(200)
 	})
+
 	app.Post("/login", user.Login)
 
 	app.Use(middlewares.Auth)
@@ -47,6 +49,10 @@ func main() {
 		pages.Admin().Render(ctx, c.Response().BodyWriter())
 		return c.SendStatus(200)
 	})
+
+	app.Get("/gui/fragments/dashboard", guih.DashboardFragment)
+	app.Get("/gui/forms/add-section", guih.AddSectionForm)
+	app.Get("/gui/forms/add-photo", guih.AddPhotoForm)
 
 	app.Listen(":3000")
 }

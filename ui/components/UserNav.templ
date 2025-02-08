@@ -31,16 +31,34 @@ templ UserNav() {
       path: "./public/svgs/home.svg",
       label: "Home", 
       option: strconv.Itoa(constants.NavOptions.HOME), 
+      attrs: templ.Attributes{ 
+        "hx-get": "/gui/fragments/home",
+        "hx-trigger": "click",
+        "hx-swap": "innerHTML",
+        "hx-target": "main",
+      },
     })
     @NavBtn(NavBtnProps{
       path: "./public/svgs/cart.svg",
       label: "My Cart", 
       option: strconv.Itoa(constants.NavOptions.MY_CART), 
+      attrs: templ.Attributes{ 
+        "hx-get": "/gui/fragments/my-cart",
+        "hx-trigger": "click",
+        "hx-swap": "innerHTML",
+        "hx-target": "main",
+      },
     })
     @NavBtn(NavBtnProps{
       path: "./public/svgs/phone.svg",
       label: "Contact Us", 
       option: strconv.Itoa(constants.NavOptions.CONTACT_US), 
+      attrs: templ.Attributes{ 
+        "hx-get": "/gui/fragments/contact-us",
+        "hx-trigger": "click",
+        "hx-swap": "innerHTML",
+        "hx-target": "main",
+      },
     })
   </navigation>
 }
