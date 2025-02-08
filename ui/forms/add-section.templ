@@ -9,8 +9,8 @@ templ AddSection(options []sections.DataModel, errs map[string]string) {
   <div hx-ext='response-targets'>
     <form 
       class="p-6 drop-shadow" 
-      hx-post="/add-section" 
-      hx-swap="afterbegin" 
+      hx-post="/section/add" 
+      hx-swap="innerHTML" 
       hx-target-error="#notifications-container"
       hx-target="#notifications-container"
     >
@@ -26,7 +26,11 @@ templ AddSection(options []sections.DataModel, errs map[string]string) {
         Placeholder: "Select parent section",
         Err: errs["parent"],
       })
-      @components.Button("Add Section", "normal", templ.Attributes{ "type": "submit" })
+      @components.Button(components.ButtonProps{
+        Label: "Add Section", 
+        ClassName: "color-background bg-secondary",
+        Attrs: templ.Attributes{ "type": "submit" },
+      })
     </form>
   </div>
 }

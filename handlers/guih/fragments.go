@@ -14,5 +14,5 @@ func DashboardFragment(c *fiber.Ctx) error {
   c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
   allSections := anc.Must(sections.GetAll()).([]sections.DataModel)
   fragments.Dashboard(allSections).Render(context.Background(), c.Response().BodyWriter())
-  return c.SendStatus(200)
+  return c.SendStatus(fiber.StatusOK)
 }

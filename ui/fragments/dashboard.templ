@@ -1,12 +1,28 @@
 package fragments
 
-import "goweb/db/sections"
+import (
+  "fmt"
+
+  "goweb/db/sections"
+  "goweb/ui/components"
+)
 
 templ Dashboard(sectionList []sections.DataModel) {
-  <div>
-    <h1>Dashboard</h1>
+  <div class="h-full w-full px-6 overflow-y-auto">
     for _, section := range sectionList {
-      <label>{ section.Title }</label>
+      @components.Button(components.ButtonProps{
+        Label: section.Title,
+        ClassName: `
+          flex justify-between items-center my-2 bg-primary 
+          color-secondary border-[1px] border-accent rounded
+        `,
+        EndIconPath: "./public/svgs/x.svg",
+        EndIconAttrs: templ.Attributes{ 
+          "hx-delete": fmt.Sprintf("/section/delete/%d", section.Id),
+          "hx-swap": "delete",
+          "hx-target": "closest button",
+        },
+      })
     }
   </div>
 }

@@ -55,7 +55,11 @@ func main() {
 	app.Get("/gui/forms/add-section", guih.AddSectionForm)
 	app.Get("/gui/forms/add-photo", guih.AddPhotoForm)
 
-	app.Post("/add-section", section.AddSection)
+	app.Post("/section/add", section.Add)
+  app.Delete("/section/delete/:id", section.Delete)
+
+	//app.Post("/photo/add", photo.Add)
+	//app.Delete("/photo/delete", photo.Delete)
 
 	app.Listen(":3000")
 }

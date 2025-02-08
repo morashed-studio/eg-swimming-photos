@@ -9,11 +9,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func AddSection(c *fiber.Ctx) error {
+func Add(c *fiber.Ctx) error {
   defer anc.Recover(c)
   body := new(AddSectionBody)
   if err := c.BodyParser(body); err != nil {
     return c.Status(fiber.StatusBadRequest).SendString(err.Error())
+  }
+
+  ok, errs := ValidateAddSectionBody(body)
+  if ok == false {
+    return c.Status(fiber.StatusBadRequest).JSON(errs)
   }
 
   newSection := sections.DataModel { Title: body.Title }
@@ -32,3 +37,12 @@ func AddSection(c *fiber.Ctx) error {
   return c.SendStatus(fiber.StatusOK)
 }
 
+func Delete(c *fiber.Ctx) error {
+  defer anc.Recover(c)
+  id, err := c.ParamsInt("id")
+  if err != nil {
+    return c.Status(fiber.StatusBadRequest).SendString(err.Error())
+  }
+  anc.Must(nil, sections.Delete([]int{ id }))
+  return c.SendStatus(fiber.StatusOK)
+}

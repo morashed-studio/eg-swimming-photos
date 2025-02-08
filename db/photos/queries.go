@@ -38,8 +38,15 @@ func Delete(id int) error {
 }
 
 // removes all photos of a specific section
-func DeleteAll(sectionId int) error {
+func DeleteAll(sectionIds []int) error {
+  queryList := ""
+	for _, id := range sectionIds {
+    queryList += fmt.Sprintf("%d,", id)
+	}
+  queryList = queryList[0:len(queryList)-1]
+  query := fmt.Sprintf("DELETE FROM photos WHERE section_id IN (%s)", queryList)
+
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
-	anc.Must(conn.Query("DELETE FROM photos WHERE section_id=$1", sectionId))
+	anc.Must(conn.Query(query))
 	return nil
 }

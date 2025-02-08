@@ -6,6 +6,8 @@ import (
 
 	anc "goweb/ancillaries"
 	"goweb/db"
+	"goweb/db/photos"
+	"goweb/db/relations"
 )
 
 // retrieves the id of a specific section title.
@@ -22,8 +24,15 @@ func GetId(title string) (int, error) {
 
 // retrieves an array of sections with the passed ids.
 func Get(ids []int) ([]DataModel, error) {
+  queryList := ""
+	for _, id := range ids {
+    queryList += fmt.Sprintf("%d,", id)
+	}
+  queryList = queryList[0:len(queryList)-1]
+  query := fmt.Sprintf("SELECT * FROM sections WHERE id in (%s)", queryList)
+
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
-	rows := anc.Must(conn.Query("SELECT * FROM sections WHERE id in $1", ids)).([]any)
+	rows := anc.Must(conn.Query(query)).([]any)
 	var res []DataModel
 	for _, row := range rows {
 		res = append(res, parseRow(row.([]any)))
@@ -56,7 +65,21 @@ func Add(list []DataModel) error {
 
 // removes sections with the passed ids from the database.
 func Delete(ids []int) error {
+  if len(ids) == 0 {
+    return nil
+  }
+
+  anc.Must(nil, photos.DeleteAll(ids))
+  anc.Must(nil, relations.DeleteAll(ids))
+
+  queryList := ""
+	for _, id := range ids {
+    queryList += fmt.Sprintf("%d,", id)
+	}
+  queryList = queryList[0:len(queryList)-1]
+  query := fmt.Sprintf("DELETE FROM sections WHERE id in (%s)", queryList)
+
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
-	anc.Must(conn.Query("DELETE FROM sections WHERE id in $1", ids))
+	anc.Must(conn.Query(query))
 	return nil
 }

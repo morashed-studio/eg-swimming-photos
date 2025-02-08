@@ -23,7 +23,11 @@ templ Login(errs map[string]string) {
         Itype: "password",
         Err: errs["password"],
       })
-      @components.Button("Login", "normal", templ.Attributes{ "type": "submit" })
+      @components.Button(components.ButtonProps{
+        Label: "Login", 
+        ClassName: "color-background bg-secondary",
+        Attrs: templ.Attributes{ "type": "submit" },
+      })
     </form>
   </div>
 }

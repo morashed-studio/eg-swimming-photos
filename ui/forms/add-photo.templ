@@ -8,7 +8,7 @@ templ AddPhoto(options []sections.DataModel, errs map[string]string) {
     <form 
       class="p-6 drop-shadow" 
       hx-post="/add-photo" 
-      hx-swap="afterbegin" 
+      hx-swap="innerHTML" 
       hx-target-error="#notifications-container"
       hx-target="#notifications-container"
     >
@@ -30,7 +30,11 @@ templ AddPhoto(options []sections.DataModel, errs map[string]string) {
         Placeholder: "Select parent section",
         Err: errs["section-id"],
       })
-      @components.Button("Add Photo", "normal", templ.Attributes{ "type": "submit" })
+      @components.Button(components.ButtonProps{
+        Label: "Add Photo", 
+        ClassName: "color-background bg-secondary",
+        Attrs: templ.Attributes{ "type": "submit" },
+      })
     </form>
   </div>
 }

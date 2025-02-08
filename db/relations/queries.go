@@ -38,9 +38,16 @@ func Delete(data DataModel) error {
 }
 
 // removes specific parent relations from the database
-func DeleteAll(parent int) error {
+func DeleteAll(parents []int) error {
+  queryList := ""
+	for _, id := range parents {
+    queryList += fmt.Sprintf("%d,", id)
+	}
+  queryList = queryList[0:len(queryList)-1]
+  query := fmt.Sprintf("DELETE FROM relations WHERE parent IN (%s) OR child IN (%s)", queryList, queryList)
+
 	conn := anc.Must(db.GetConnection()).(*db.Connection)
-	anc.Must(conn.Query("DELETE FROM relations WHERE parent=$1", parent))
+	anc.Must(conn.Query(query))
 	return nil
 }
 

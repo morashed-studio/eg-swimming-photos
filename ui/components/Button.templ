@@ -1,7 +1,28 @@
 package components
 
-templ Button(label string, variant string, attrs templ.Attributes) {
-  <button class="w-full py-2 px-8 text-lg color-background bg-secondary hover:translate-y-[-2px] rounded" variant={ variant } { attrs... }>
-    { label }
+type ButtonProps struct{
+  Label string
+  ClassName string
+
+  EndIconPath string
+  EndIconAttrs templ.Attributes
+
+  Attrs templ.Attributes
+}
+
+templ Button(props ButtonProps) {
+  <button 
+    class={
+      "w-full p-2 text-lg hover:translate-y-[-2px] rounded",
+      props.ClassName,
+    } 
+    { props.Attrs... }
+  >
+    <label>{ props.Label }</label>
+    if props.EndIconPath != "" {
+      <div { props.EndIconAttrs... }>
+        @SVG(props.EndIconPath)
+      </div>
+    }
   </button>
 }
