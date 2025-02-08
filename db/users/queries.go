@@ -3,8 +3,8 @@ package users
 import (
 	"errors"
 
-	anc "goweb/ancillaries"
-	"goweb/db"
+	anc "eg-swimming-photos/ancillaries"
+	"eg-swimming-photos/db"
 )
 
 func Add(username, password string) error {

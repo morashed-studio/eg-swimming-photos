@@ -1,8 +1,8 @@
 package middlewares
 
 import (
+	"eg-swimming-photos/db/users"
 	"github.com/gofiber/fiber/v2"
-	"goweb/db/users"
 )
 
 func Auth(c *fiber.Ctx) error {

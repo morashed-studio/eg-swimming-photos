@@ -5,14 +5,14 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
-	anc "goweb/ancillaries"
-	"goweb/db"
-	"goweb/handlers/guih"
-	"goweb/handlers/photo"
-	"goweb/handlers/section"
-	"goweb/handlers/user"
-	"goweb/middlewares"
-	"goweb/pages"
+	anc "eg-swimming-photos/ancillaries"
+	"eg-swimming-photos/db"
+	"eg-swimming-photos/handlers/guih"
+	"eg-swimming-photos/handlers/photo"
+	"eg-swimming-photos/handlers/section"
+	"eg-swimming-photos/handlers/user"
+	"eg-swimming-photos/middlewares"
+	"eg-swimming-photos/pages"
 )
 
 func main() {
@@ -45,7 +45,7 @@ func main() {
 	app.Get("/gui/fragments/home", guih.HomeFragment)
 	app.Get("/gui/fragments/my-cart", guih.MyCartFragment)
 	app.Get("/gui/fragments/contact-us", guih.ContactUsFragment)
-  app.Get("/gui/fragments/photo/:id", guih.PhotoFragment)
+	app.Get("/gui/fragments/photo/:id", guih.PhotoFragment)
 
 	app.Post("/login", user.Login)
 
@@ -62,10 +62,10 @@ func main() {
 	app.Get("/gui/forms/add-photo", guih.AddPhotoForm)
 
 	app.Post("/section/add", section.Add)
-  app.Delete("/section/delete/:id", section.Delete)
+	app.Delete("/section/delete/:id", section.Delete)
 
 	app.Post("/photo/add", photo.Add)
-  app.Delete("/photo/delete/:id", photo.Delete)
+	app.Delete("/photo/delete/:id", photo.Delete)
 
 	app.Listen(":3000")
 }
